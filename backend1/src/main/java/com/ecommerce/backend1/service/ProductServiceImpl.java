@@ -1,7 +1,10 @@
 package com.ecommerce.backend1.service;
 
+import com.ecommerce.backend1.dto.ProductDTO;
 import com.ecommerce.backend1.entity.Product;
 import com.ecommerce.backend1.repository.ProductRepository;
+import com.ecommerce.backend1.service.ProductService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,8 +14,12 @@ import java.util.List;
 
 @Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public Product addProduct(Product product) {
@@ -42,7 +49,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Product> getProducts(Pageable pageable) {
-        return productRepository.findAll(pageable);
+    public Page<ProductDTO> getProducts(Pageable pageable) {
+
+        Page<Product> productPage = productRepository.findAll(pageable);
+
+        return productPage.map(product ->
+                modelMapper.map(product, ProductDTO.class));
     }
 }
