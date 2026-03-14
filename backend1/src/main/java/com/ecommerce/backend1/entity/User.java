@@ -10,18 +10,20 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "users")
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
-public class Product {
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
-    private String description;
-    private double price;
-    private int quantity;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @Column(unique = true)
+    private String email;
+
+    private String password;
+
+    private String role;
 }
