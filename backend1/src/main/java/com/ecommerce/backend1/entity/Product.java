@@ -18,8 +18,8 @@ public class Product {
 
     private String name;
     private String description;
-    private double price;
-    private int quantity;
+    private Double price;
+    private Integer quantity;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
