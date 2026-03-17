@@ -10,6 +10,8 @@ import com.ecommerce.backend1.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/cart")
 public class CartController {
@@ -36,5 +38,9 @@ public class CartController {
         cart.setProduct(product);
 
         return cartRepository.save(cart);
+    }
+    @GetMapping("/user/{userId}")
+    public List<Cart>getCartByUser(@PathVariable Long userId){
+        return cartRepository.findByUserId(userId);
     }
 }
