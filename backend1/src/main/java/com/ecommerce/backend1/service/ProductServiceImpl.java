@@ -56,4 +56,9 @@ public class ProductServiceImpl implements ProductService {
         return productPage.map(product ->
                 modelMapper.map(product, ProductDTO.class));
     }
-}
+
+        @Override
+        public List<Product> searchProducts(String keyword){
+            return productRepository.findByNameContainingIgnoreCase(keyword);
+        }
+    }

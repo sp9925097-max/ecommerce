@@ -1,5 +1,7 @@
 package com.ecommerce.backend1.config;
 
+import com.ecommerce.backend1.entity.User;
+import com.ecommerce.backend1.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +26,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
@@ -39,14 +44,24 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
             String token = authHeader.substring(7);
-            String username = jwtUtil.extractUsername(token);
+            String email = jwtUtil.extractUsername(token);
 
-            if (username != null) {
-                UsernamePasswordAuthenticationToken auth =
-                        new UsernamePasswordAuthenticationToken(
-                                username, null, List.of());
+            if (email != null) {
 
-                SecurityContextHolder.getContext().setAuthentication(auth);
+                User user = userRepository.findByEmail(email)
+                        .orElse(null);
+
+                if (user != null) {
+
+                    UsernamePasswordAuthenticationToken auth =
+                            new UsernamePasswordAuthenticationToken(
+                                    email,
+                                    null,
+                                    List.of(new SimpleGrantedAuthority(user.getRole()))
+                            );
+
+                    SecurityContextHolder.getContext().setAuthentication(auth);
+                }
             }
         }
 

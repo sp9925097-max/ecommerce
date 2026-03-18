@@ -6,6 +6,7 @@ import com.ecommerce.backend1.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +20,18 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    // ✅ Get all (pagination)
     @GetMapping
-    public List<Product> getAllProducts(){
-        return productService.getAllProducts();
+    public Page<ProductDTO> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size){
+
+        Pageable pageable = PageRequest.of(page, size);
+        return productService.getProducts(pageable);
     }
 
-    @PostMapping
+    // ✅ Admin only
+    @PostMapping("/add")
     public Product addProduct(@RequestBody Product product){
         return productService.addProduct(product);
     }
@@ -41,8 +48,9 @@ public class ProductController {
         return "Product deleted successfully";
     }
 
-    @GetMapping("/page")
-    public Page<ProductDTO> getProducts(Pageable pageable){
-        return productService.getProducts(pageable);
+    // ✅ Search
+    @GetMapping("/search")
+    public List<Product> searchProducts(@RequestParam String keyword){
+        return productService.searchProducts(keyword);
     }
 }

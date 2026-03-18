@@ -18,4 +18,6 @@ public interface ProductService {
     void deleteProduct(Long id);
 
     Page<ProductDTO> getProducts(Pageable pageable);
+
+    List<Product> searchProducts(String keyword);
 }

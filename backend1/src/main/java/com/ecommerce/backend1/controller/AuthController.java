@@ -31,7 +31,16 @@ public class AuthController {
     @PostMapping("/register")
     public User register(@RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_USER");
+        if(user.getRole() == null || user.getRole().isEmpty()){
+            user.setRole("ROLE_USER");
+        }
+
+        return userRepository.save(user);
+    }
+    @PostMapping("/register-admin")
+    public User registerAdmin(@RequestBody User user){
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("ROLE_ADMIN");
         return userRepository.save(user);
     }
 
