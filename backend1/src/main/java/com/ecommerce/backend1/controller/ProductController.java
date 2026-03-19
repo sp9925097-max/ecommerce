@@ -21,7 +21,7 @@ public class ProductController {
     private ProductService productService;
 
     // ✅ Get all (pagination)
-    @GetMapping
+    @GetMapping("/page")
     public Page<ProductDTO> getProducts(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size){
