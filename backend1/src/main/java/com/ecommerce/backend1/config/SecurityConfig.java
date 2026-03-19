@@ -31,7 +31,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/payment/**").permitAll()
                         .requestMatchers("/api/products/add").hasRole("ADMIN")
-                        .anyRequest().authenticated()
+                                .requestMatchers("/api/products/add").hasRole("ADMIN")
+                                .requestMatchers("/api/orders/**").hasRole("ADMIN")
+                                .requestMatchers("/api/cart/**").hasRole("USER")
+
+                .anyRequest().authenticated()
                 )
                 .formLogin(form -> form.disable())
                 .httpBasic(basic -> basic.disable())

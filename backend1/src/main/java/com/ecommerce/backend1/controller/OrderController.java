@@ -5,6 +5,7 @@ import com.ecommerce.backend1.entity.Order;
 import com.ecommerce.backend1.repository.CartRepository;
 import com.ecommerce.backend1.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,6 +46,17 @@ public class OrderController {
     public List<Order> getOrders(@PathVariable Long userId){
         return orderRepository.findByUserId(userId);
     }
-
+    @PutMapping("/{id}/status")
+    public Order updateStatus(@PathVariable Long id,
+                              @RequestParam String status){
+        Order order = orderRepository.findById(id).orElseThrow();
+        order.setStatus(status);
+        return orderRepository.save(order);
+    }
+    @GetMapping("/my-orders")
+    public List<Order> getMyOrders(Authentication auth){
+        String email = auth.getName();
+        return orderRepository.findByUserEmail(email);
+    }
 }
 

@@ -31,10 +31,10 @@ public class ProductController {
         return productService.getProducts(pageable);
     }
 
-    // ✅ Admin only
     @PostMapping("/add")
-    public Product addProduct(@RequestBody Product product){
-        return productService.addProduct(product);
+    public ApiResponse<Product> addProduct(@RequestBody Product product){
+        Product savedProduct = productService.addProduct(product);
+        return new ApiResponse<>("Product added successfully",savedProduct);
     }
 
     @PutMapping("/{id}")
@@ -54,5 +54,4 @@ public class ProductController {
     public List<Product> searchProducts(@RequestParam String keyword){
         return productService.searchProducts(keyword);
     }
-
 }
