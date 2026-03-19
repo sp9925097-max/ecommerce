@@ -1,5 +1,6 @@
 package com.ecommerce.backend1.controller;
 
+import com.ecommerce.backend1.dto.ApiResponse;
 import com.ecommerce.backend1.dto.ProductDTO;
 import com.ecommerce.backend1.entity.Product;
 import com.ecommerce.backend1.service.ProductService;
@@ -53,4 +54,5 @@ public class ProductController {
     public List<Product> searchProducts(@RequestParam String keyword){
         return productService.searchProducts(keyword);
     }
+
 }

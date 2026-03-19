@@ -21,8 +21,11 @@ public class OrderController {
 
     @PostMapping("/place/{userId}")
     public Order placeOrder(@PathVariable Long userId){
-        List<Cart> cartItems = cartRepository.findByUserId(userId);
 
+        List<Cart> cartItems = cartRepository.findByUserId(userId);
+        if(cartItems.isEmpty()){
+            throw new RuntimeException("Cart is empty");
+        }
         double total = cartItems.stream()
                 .mapToDouble(c -> c.getProduct().getPrice())
                 .sum();
@@ -31,13 +34,17 @@ public class OrderController {
         order.setTotalAmount(total);
         order.setStatus("PLACED");
 
-        cartRepository.deleteAll(cartItems);
 
-        return orderRepository.save(order);
+
+
+         orderRepository.save(order);
+        cartRepository.deleteAll(cartItems);
+        return order;
     }
     @GetMapping("/user/{userId}")
     public List<Order> getOrders(@PathVariable Long userId){
         return orderRepository.findByUserId(userId);
     }
+
 }
 
