@@ -2,12 +2,16 @@ package com.ecommerce.backend1.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 @Data
+@Getter
+@Setter
 public class Order {
 
     @Id

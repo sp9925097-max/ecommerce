@@ -3,6 +3,7 @@ package com.ecommerce.backend1.controller;
 import com.ecommerce.backend1.dto.ApiResponse;
 import com.ecommerce.backend1.dto.ProductDTO;
 import com.ecommerce.backend1.entity.Product;
+import com.ecommerce.backend1.repository.ProductRepository;
 import com.ecommerce.backend1.service.ProductService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class ProductController {
 
     @Autowired
     private ProductService productService;
+    @Autowired
+    private ProductRepository productRepository;
 
     // ✅ Get all (pagination)
     @GetMapping("/page")
@@ -57,5 +60,9 @@ public class ProductController {
     @GetMapping("/search")
     public List<Product> searchProducts(@RequestParam String keyword){
         return productService.searchProducts(keyword);
+    }
+    @GetMapping("/products/count")
+    public long getProductCount(){
+        return productRepository.count();
     }
 }
