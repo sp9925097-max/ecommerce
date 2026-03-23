@@ -21,7 +21,7 @@ public class PaymentController {
     public String makePayment(){
         return "Payment Successful";
     }
-    @PostMapping("/pay/{orderId")
+    @PostMapping("/pay/{orderId}")
     public String pay(@PathVariable Long orderId){
         Order order = orderRepository.findById(orderId).orElseThrow();
         order.setStatus("PAID");

@@ -58,5 +58,9 @@ public class OrderController {
         String email = auth.getName();
         return orderRepository.findByUserEmail(email);
     }
+    @GetMapping("/{id}/status")
+    public String getStatus(@PathVariable Long id){
+        return orderRepository.findById(id).get().getStatus();
+    }
 }
 

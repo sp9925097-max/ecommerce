@@ -30,10 +30,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/payment/**").permitAll()
+                                .requestMatchers("/api/images/**").permitAll()
                         .requestMatchers("/api/products/add").hasRole("ADMIN")
-                                .requestMatchers("/api/products/add").hasRole("ADMIN")
                                 .requestMatchers("/api/orders/**").hasRole("ADMIN")
                                 .requestMatchers("/api/cart/**").hasRole("USER")
+                                .requestMatchers("/api/wishlist/**").hasRole("USER")
+                                .requestMatchers("/api/reviews/**").authenticated()
 
                 .anyRequest().authenticated()
                 )

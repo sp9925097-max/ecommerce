@@ -1,14 +1,9 @@
 package com.ecommerce.backend1.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-
-public class Cart {
+public class Wishlist {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,6 +13,4 @@ public class Cart {
 
     @ManyToOne
     private Product product;
-
-    private Integer quantity;
 }

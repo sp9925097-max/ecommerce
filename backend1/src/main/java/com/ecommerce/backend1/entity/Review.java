@@ -1,23 +1,19 @@
 package com.ecommerce.backend1.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Getter
-@Setter
-
-public class Cart {
+public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private User user;
+    private int rating;
+    private String comment;
 
     @ManyToOne
     private Product product;
 
-    private Integer quantity;
+    @ManyToOne
+    private User user;
 }

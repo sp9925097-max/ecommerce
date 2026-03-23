@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,9 +34,11 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ApiResponse<Product> addProduct(@RequestBody Product product){
+    public ResponseEntity<ApiResponse<Product> >addProduct(@RequestBody Product product){
         Product savedProduct = productService.addProduct(product);
-        return new ApiResponse<>("Product added successfully",savedProduct);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse<>("Product added successfully",savedProduct));
     }
 
     @PutMapping("/{id}")
